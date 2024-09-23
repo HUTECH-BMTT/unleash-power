@@ -5,14 +5,14 @@ from repo_manager import create_repository
 from collaborator_manager import add_collaborator
 
 def main():
-    # Khởi tạo GitHub API client
+    # Initialize GitHub API client
     g = init_github_client()
     
-    # Tên tổ chức và lớp học
+    # Organization and class name
     org_name = "HUTECH-BMTT"
     org = g.get_organization(org_name)
 
-    # Đọc danh sách sinh viên từ file CSV
+    # Read the list of students from the CSV file
     students = pd.read_csv('students.csv')
 
     for index, student in students.iterrows():
@@ -21,11 +21,11 @@ def main():
         class_name = student['class_name']
         github_username = student['github_username']
         
-        # Tạo repository cho sinh viên
+        # Create a repository for the student
         repo = create_repository(org, class_name, student_id, full_name)
         
         if repo:
-            # Thêm sinh viên làm collaborator nếu repo được tạo thành công
+            # Add the student as a collaborator if the repository was created successfully
             add_collaborator(repo, github_username, g)
         else:
             print(f"Skipping collaborator addition due to repo creation failure for {github_username}.")
