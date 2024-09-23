@@ -1,10 +1,12 @@
 name: Process Students CSV
 
-# Trigger workflow khi có bất kỳ thay đổi trong thư mục chứa CSV files
+# Trigger workflow when there are any changes in the directory containing CSV files
 on:
   push:
+    branches:
+      - main
     paths:
-      - 'students.csv' # Chỉ trigger khi file students.csv thay đổi
+      - 'students.csv' # Only trigger when any CSV file changes in the main branch
 
 jobs:
   process-csv:
