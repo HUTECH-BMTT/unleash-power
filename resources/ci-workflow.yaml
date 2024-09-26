@@ -1,0 +1,25 @@
+# Student's repo: .github/workflows/call-weekly-assignment.yaml
+
+name: Create Weekly Assignment Issue and Milestone
+
+on:
+    workflow_dispatch:
+    schedule:
+        # Runs every Saturday at 6 AM, UTC +7
+        - cron: "0 23 * * 5"
+    push:
+        branches:
+            - main
+        paths:
+            - 'trigger-ci.txt' # Only trigger when any trigger file changes in the main branch
+
+permissions:
+    issues: write
+    contents: write
+    actions: read
+
+jobs:
+    call-create-assignment-issue:
+        uses: HUTECH-BMTT/workflow-templates/.github/workflows/create-assignment-issue.yaml@main
+        secrets: inherit
+
