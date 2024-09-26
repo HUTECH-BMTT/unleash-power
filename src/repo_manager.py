@@ -35,14 +35,9 @@ def create_repo_structure(repo):
         repo.create_file(f"{week_folder}.gitkeep", "create folder structure", "", branch="main")
     
     # Copy assignment instructions to Readme.md at the root level
-    with open('assignment-instructions.md', 'r') as file:
+    with open('resources/assignment-instructions.md', 'r') as file:
         content = file.read()
         repo.create_file("Readme.md", "Add assignment instructions", content, branch="main")
-
-    # Copy the enforce-pr.yaml to .github/workflows/enforce-pr.yaml
-    with open('workflows/enforce-pr.yaml', 'r') as file:
-        content = file.read()
-        repo.create_file(".github/workflows/enforce-pr.yaml", "Add enforce PR workflow", content, branch="main")
 
     print(f"Folder structure created in {repo.name}.")
 

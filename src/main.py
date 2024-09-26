@@ -13,7 +13,7 @@ def main():
     org = g.get_organization(org_name)
 
     # Read the list of students from the CSV file
-    students = pd.read_csv('students.csv')
+    students = pd.read_csv('resources/students.csv')
 
     for index, student in students.iterrows():
         student_id = student['student_id']
