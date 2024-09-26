@@ -2,6 +2,7 @@ name: Process Students CSV
 
 # Trigger workflow when there are any changes in the directory containing CSV files
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -9,7 +10,7 @@ on:
       - 'resources/students.csv' # Only trigger when any CSV file changes in the main branch
 
 jobs:
-  process-csv:
+  process-students:
     runs-on: ubuntu-latest
     
     steps:

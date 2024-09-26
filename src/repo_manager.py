@@ -19,8 +19,8 @@ def create_repository(org, class_name, student_id, full_name):
             # Create folder structure
             create_repo_structure(repo)
             
-            # Set Actions secret
-            set_repo_secret(repo, "PAT", os.getenv("GIT_FULL_ACCESS_TOKEN"))
+            # Trigger CI workflow
+            trigger_ci_workflow(repo)
             
             return repo
         except Exception as e:
@@ -39,11 +39,14 @@ def create_repo_structure(repo):
         content = file.read()
         repo.create_file("Readme.md", "Add assignment instructions", content, branch="main")
 
+    # Copy ci-workflow.yml to .github/workflows 
+    with open('resources/ci-workflow.yaml', 'r') as file:
+        content = file.read()
+        repo.create_file(".github/workflows/ci-workflow.yaml", "Add CI workflow", content, branch="main")
+
     print(f"Folder structure created in {repo.name}.")
 
-def set_repo_secret(repo, secret_name, secret_value):
-    try:
-        repo.create_secret(secret_name, secret_value)
-        print(f"Secret {secret_name} set successfully in {repo.name}.")
-    except Exception as e:
-        print(f"Failed to set secret {secret_name} in {repo.name}: {e}")
+def trigger_ci_workflow(repo):
+    # Create a dummy commit to trigger the CI workflow
+    repo.create_file("trigger-ci.txt", "Trigger CI workflow", "This is a dummy file to trigger CI workflow", branch="main")
+    print(f"CI workflow triggered in {repo.name}.")
