@@ -1,10 +1,9 @@
 name: Tracking Issue
 
 on:
-  workflow_run:
-    workflows: ["Create Weekly Assignment Issue and Milestone"]
+  issues:
     types:
-      - completed
+      - opened
 
 permissions:
     issues: write
