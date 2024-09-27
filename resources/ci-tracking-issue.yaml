@@ -1,9 +1,8 @@
 name: Tracking Issue
 
 on:
-  issues:
-    types:
-      - opened
+  repository_dispatch:
+    types: [tracking-issue]
 
 permissions:
     issues: write
