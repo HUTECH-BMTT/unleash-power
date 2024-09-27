@@ -10,6 +10,8 @@ def create_repository(org, class_name, student_id, full_name):
         print(f"Repository {repo_name} already exists.")
         # Add new CI workflows if necessary
         add_ci_workflow_to_repo(repo)
+        # Update secret
+        update_repo_secret(repo)
         return repo
     except Exception:
         # If the repository does not exist, create a new repository
@@ -18,6 +20,8 @@ def create_repository(org, class_name, student_id, full_name):
             print(f"Repository {repo_name} created successfully.")
             # Create folder structure
             create_repo_structure(repo)
+            # Add secret
+            update_repo_secret(repo)
             return repo
         except Exception as e:
             print(f"Failed to create repository {repo_name}: {e}")
@@ -57,3 +61,12 @@ def add_ci_workflow_to_repo(repo):
                 content = file.read()
                 repo.create_file(file_path, f"Add {ci_file}", content, branch="main")
             print(f"{ci_file} added to {repo.name}.")
+
+def update_repo_secret(repo):
+    secret_name = "PAT"
+    secret_value = os.getenv("GIT_FULL_ACCESS_TOKEN")
+    if secret_value:
+        repo.create_secret(secret_name, secret_value)
+        print(f"Secret {secret_name} added/updated in {repo.name}.")
+    else:
+        print("Environment variable GIT_FULL_ACCESS_TOKEN is not set.")
