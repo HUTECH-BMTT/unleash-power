@@ -1,6 +1,3 @@
-from reset_issues import reset_issues
-from trigger_workflow import trigger_ci_workflow
-
 def handle_repository(repo):
     """Handle the operations needed for each repository."""
     reset_issues(repo)
