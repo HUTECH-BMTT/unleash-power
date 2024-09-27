@@ -1,8 +1,10 @@
 name: Tracking Issue
 
 on:
-  repository_dispatch:
-    types: [tracking-issue]
+  workflow_run:
+    workflows: ["Create Weekly Assignment Issue and Milestone"]
+    types:
+      - completed
 
 permissions:
     issues: write
