@@ -44,6 +44,11 @@ def create_repo_structure(repo):
         content = file.read()
         repo.create_file(".github/workflows/ci-workflow.yaml", "Add CI workflow", content, branch="main")
 
+    # Copy ci-mark-submission.sh to .github/workflows
+    with open('resources/ci-mark-submission.yaml', 'r') as file:
+        content = file.read()
+        repo.create_file(".github/workflows/ci-mark-submission.yaml", "Add CI mark submission script", content, branch="main")
+
     print(f"Folder structure created in {repo.name}.")
 
 def trigger_ci_workflow(repo):
