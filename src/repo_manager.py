@@ -4,7 +4,6 @@ from github import Github
 def create_repository(org, class_name, student_id, full_name):
     # Create repository name
     repo_name = f"{class_name}-{student_id}-{full_name}"
-    
     try:
         # Check if the repository already exists
         repo = org.get_repo(repo_name)
@@ -17,13 +16,8 @@ def create_repository(org, class_name, student_id, full_name):
         try:
             repo = org.create_repo(repo_name, private=True)
             print(f"Repository {repo_name} created successfully.")
-            
             # Create folder structure
             create_repo_structure(repo)
-            
-            # Trigger CI workflow
-            trigger_ci_workflow(repo)
-            
             return repo
         except Exception as e:
             print(f"Failed to create repository {repo_name}: {e}")
@@ -35,17 +29,14 @@ def create_repo_structure(repo):
         # Create student-work folder
         week_folder = f"Week{week}/student-work/"
         repo.create_file(f"{week_folder}.gitkeep", "create folder structure", "", branch="main")
-    
     # Copy assignment instructions to Readme.md at the root level
     with open('resources/assignment-instructions.md', 'r') as file:
         content = file.read()
         repo.create_file("Readme.md", "Add assignment instructions", content, branch="main")
-
     # Copy ci-workflow.yml to .github/workflows 
     with open('resources/ci-workflow.yaml', 'r') as file:
         content = file.read()
         repo.create_file(".github/workflows/ci-workflow.yaml", "Add CI workflow", content, branch="main")
-
     print(f"Folder structure created in {repo.name}.")
 
 def add_ci_workflow_to_repo(repo):
@@ -60,8 +51,3 @@ def add_ci_workflow_to_repo(repo):
             content = file.read()
             repo.create_file(file_path, "Add new CI workflow", content, branch="main")
         print(f"New CI workflow added to {repo.name}.")
-
-def trigger_ci_workflow(repo):
-    # Create a dummy commit to trigger the CI workflow
-    repo.create_file("trigger-ci.txt", "Trigger CI workflow", "This is a dummy file to trigger CI workflow", branch="main")
-    print(f"CI workflow triggered in {repo.name}.")
