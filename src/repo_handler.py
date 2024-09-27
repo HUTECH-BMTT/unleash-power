@@ -1,6 +1,7 @@
 def handle_repository(repo):
     """Handle the operations needed for each repository."""
     reset_issues(repo)
+    delete_milestones(repo)
     trigger_ci_workflow(repo)
 
 def trigger_ci_workflow(repo):
@@ -20,9 +21,15 @@ def reset_issues(repo):
         for issue in issues:
             issue.edit(state="closed")
             print(f"Issue #{issue.number} closed in {repo.name}.")
-        
-        # Create a new issue to mark the reset
-        repo.create_issue(title="Issue reset", body="All previous issues have been closed and reset.")
-        print(f"New issue created to mark the reset in {repo.name}.")
     except Exception as e:
         print(f"Failed to reset issues in {repo.name}: {e}")
+
+def delete_milestones(repo):
+    """Delete all milestones in a repository."""
+    try:
+        milestones = repo.get_milestones(state="open")
+        for milestone in milestones:
+            milestone.delete()
+            print(f"Milestone '{milestone.title}' deleted in {repo.name}.")
+    except Exception as e:
+        print(f"Failed to delete milestones in {repo.name}: {e}")
