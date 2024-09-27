@@ -7,12 +7,19 @@ def handle_repository(repo):
 def trigger_ci_workflow(repo):
     """Trigger a dummy CI workflow by updating the content of an existing dummy file."""
     try:
+        # Kiểm tra xem file trigger-ci.txt có tồn tại hay không
         contents = repo.get_contents("trigger-ci.txt", ref="main")
         new_content = contents.decoded_content.decode() + "\nTrigger CI workflow update"
         repo.update_file(contents.path, "Trigger CI workflow update", new_content, contents.sha, branch="main")
         print(f"CI workflow triggered in {repo.name}.")
     except Exception as e:
-        print(f"Failed to trigger workflow in {repo.name}: {e}")
+        if "404" in str(e):  # Nếu lỗi là 404 (file không tồn tại)
+            # Tạo file mới nếu chưa tồn tại
+            new_content = "Trigger CI workflow update"
+            repo.create_file("trigger-ci.txt", "Create trigger file", new_content, branch="main")
+            print(f"Created and triggered CI workflow in {repo.name}.")
+        else:
+            print(f"Failed to trigger workflow in {repo.name}: {e}")
 
 def reset_issues(repo):
     """Reset the issues in a repository."""
