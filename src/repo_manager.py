@@ -22,6 +22,8 @@ def create_repository(org, class_name, student_id, full_name):
             create_repo_structure(repo)
             # Add secret
             update_repo_secret(repo)
+            # Add CI workflows
+            add_ci_workflow_to_repo(repo)
             return repo
         except Exception as e:
             print(f"Failed to create repository {repo_name}: {e}")
@@ -37,17 +39,14 @@ def create_repo_structure(repo):
     with open('resources/assignment-instructions.md', 'r') as file:
         content = file.read()
         repo.create_file("Readme.md", "Add assignment instructions", content, branch="main")
-    # Copy ci-workflow.yml to .github/workflows 
-    with open('resources/ci-workflow.yaml', 'r') as file:
-        content = file.read()
-        repo.create_file(".github/workflows/ci-workflow.yaml", "Add CI workflow", content, branch="main")
     print(f"Folder structure created in {repo.name}.")
 
 def add_ci_workflow_to_repo(repo):
     # List of CI workflow files to add
     ci_files = [
         'ci-mark-submission.yaml',
-        'ci-tracking-issue.yaml'
+        'ci-tracking-issue.yaml',
+        'ci-workflow.yaml'
     ]
     
     for ci_file in ci_files:
