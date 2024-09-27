@@ -9,6 +9,8 @@ def create_repository(org, class_name, student_id, full_name):
         # Check if the repository already exists
         repo = org.get_repo(repo_name)
         print(f"Repository {repo_name} already exists.")
+        # Add new CI workflow if necessary
+        add_ci_workflow_to_repo(repo)
         return repo
     except Exception:
         # If the repository does not exist, create a new repository
@@ -44,12 +46,20 @@ def create_repo_structure(repo):
         content = file.read()
         repo.create_file(".github/workflows/ci-workflow.yaml", "Add CI workflow", content, branch="main")
 
-    # Copy ci-mark-submission.sh to .github/workflows
-    with open('resources/ci-mark-submission.yaml', 'r') as file:
-        content = file.read()
-        repo.create_file(".github/workflows/ci-mark-submission.yaml", "Add CI mark submission script", content, branch="main")
-
     print(f"Folder structure created in {repo.name}.")
+
+def add_ci_workflow_to_repo(repo):
+    # Check if the new CI workflow file exists
+    file_path = ".github/workflows/ci-mark-submission.yaml"
+    try:
+        repo.get_contents(file_path, ref="main")
+        print(f"{file_path} already exists in {repo.name}. Skipping...")
+    except:
+        # If the workflow doesn't exist, add it
+        with open('resources/ci-mark-submission.yaml', 'r') as file:
+            content = file.read()
+            repo.create_file(file_path, "Add new CI workflow", content, branch="main")
+        print(f"New CI workflow added to {repo.name}.")
 
 def trigger_ci_workflow(repo):
     # Create a dummy commit to trigger the CI workflow
