@@ -11,6 +11,6 @@ permissions:
     actions: read
 
 jobs:
-    call-create-assignment-issue:
+    call-mark-submission:
         uses: HUTECH-BMTT/workflow-templates/.github/workflows/mark-submission.yaml@main
         secrets: inherit

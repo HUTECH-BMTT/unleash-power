@@ -1,0 +1,16 @@
+name: Tracking Issue
+
+on:
+  issues:
+    types:
+      - opened
+
+permissions:
+    issues: write
+    contents: write
+    actions: read
+
+jobs:
+    call-tracking-issue:
+        uses: HUTECH-BMTT/workflow-templates/.github/workflows/tracking-issue.yaml@main
+        secrets: inherit

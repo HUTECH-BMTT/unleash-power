@@ -8,7 +8,7 @@ def create_repository(org, class_name, student_id, full_name):
         # Check if the repository already exists
         repo = org.get_repo(repo_name)
         print(f"Repository {repo_name} already exists.")
-        # Add new CI workflow if necessary
+        # Add new CI workflows if necessary
         add_ci_workflow_to_repo(repo)
         return repo
     except Exception:
@@ -40,14 +40,20 @@ def create_repo_structure(repo):
     print(f"Folder structure created in {repo.name}.")
 
 def add_ci_workflow_to_repo(repo):
-    # Check if the new CI workflow file exists
-    file_path = ".github/workflows/ci-mark-submission.yaml"
-    try:
-        repo.get_contents(file_path, ref="main")
-        print(f"{file_path} already exists in {repo.name}. Skipping...")
-    except:
-        # If the workflow doesn't exist, add it
-        with open('resources/ci-mark-submission.yaml', 'r') as file:
-            content = file.read()
-            repo.create_file(file_path, "Add new CI workflow", content, branch="main")
-        print(f"New CI workflow added to {repo.name}.")
+    # List of CI workflow files to add
+    ci_files = [
+        'ci-mark-submission.yaml',
+        'ci-tracking-issue.yaml'
+    ]
+    
+    for ci_file in ci_files:
+        file_path = f".github/workflows/{ci_file}"
+        try:
+            repo.get_contents(file_path, ref="main")
+            print(f"{file_path} already exists in {repo.name}. Skipping...")
+        except:
+            # If the workflow doesn't exist, add it
+            with open(f'resources/{ci_file}', 'r') as file:
+                content = file.read()
+                repo.create_file(file_path, f"Add {ci_file}", content, branch="main")
+            print(f"{ci_file} added to {repo.name}.")
