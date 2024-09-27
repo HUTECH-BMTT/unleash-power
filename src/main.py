@@ -3,7 +3,7 @@ import unidecode
 from github_client import init_github_client
 from repo_manager import create_repository
 from collaborator_manager import add_collaborator
-from repo_handler import handle_repository
+# from repo_handler import handle_repository
 
 def main():
     # Initialize GitHub API client
@@ -29,7 +29,7 @@ def main():
             # Add the student as a collaborator
             add_collaborator(repo, github_username, g)
             # Handle repository-specific actions
-            handle_repository(repo)
+            # handle_repository(repo)
         else:
             print(f"Skipping collaborator addition due to repo creation failure for {github_username}.")
         
