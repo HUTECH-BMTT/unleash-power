@@ -3,7 +3,7 @@ def handle_repository(repo):
     reset_issues(repo)
     delete_milestones(repo)
     trigger_ci_workflow(repo)
-    reset_issue_number_file(repo)
+    # reset_issue_number_file(repo)
 
 def trigger_ci_workflow(repo):
     """Trigger a dummy CI workflow by updating the content of an existing dummy file."""
