@@ -25,10 +25,10 @@ for repo in org.get_repos():
     repo_url = repo.clone_url
 
     # Kiểm tra tên repo để phân loại thư mục
-    if "22DTHB4" in repo_name:
-        repo_dir = os.path.join(BASE_DIR, "22DTHB4")
-    elif "22DTHB5" in repo_name:
-        repo_dir = os.path.join(BASE_DIR, "22DTHB5")
+    if "22DTHG3" in repo_name:
+        repo_dir = os.path.join(BASE_DIR, "22DTHG3")
+    elif "22DTHG5" in repo_name:
+        repo_dir = os.path.join(BASE_DIR, "22DTHG5")
     else:
         repo_dir = os.path.join(BASE_DIR, "others")
 
